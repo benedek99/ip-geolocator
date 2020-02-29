@@ -138,6 +138,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.shared</groupId>
+						<artifactId>maven-dependency-analyzer</artifactId>
+						<version>1.11.1</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<usedDependencies>org.projectlombok:lombok</usedDependencies>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -157,6 +172,21 @@
 				<version>3.0.0</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<usedDependencies>org.projectlombok:lombok</usedDependencies>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>analyze-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 		</plugins>
 	</reporting>
 </project>
