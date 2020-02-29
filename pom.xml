@@ -50,8 +50,26 @@
 		</dependency>
 
 	</dependencies>
+	<distributionManagement>
+		<site>
+			<id>shrek</id>
+			<url>scp://benedekszabo@shrek.unideb.hu:2222/home/benedekszabo/public_html/${project.artifactId}</url>
+		</site>
+	</distributionManagement>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.8.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>3.3.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
