@@ -1,5 +1,9 @@
 package geolocator;
 
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
+
 import java.net.URL;
 
 import java.io.IOException;
@@ -24,6 +28,8 @@ public class GeoLocator {
 
     private static Gson GSON = new Gson();
 
+    private static Logger logger = LoggerFactory.getLogger(GeoLocator.class);
+
     /**
      * Creates a <code>GeoLocator</code> object.
      */
@@ -35,7 +41,7 @@ public class GeoLocator {
      * @return an object wrapping the geolocation information returned
      * @throws IOException if any I/O error occurs
      */
-    public GeoLocation getGeoLocation() throws IOException {
+    public geolocator.GeoLocation getGeoLocation() throws IOException {
         return getGeoLocation(null);
     }
 
@@ -48,16 +54,22 @@ public class GeoLocator {
      * @return an object wrapping the geolocation information returned
      * @throws IOException if any I/O error occurs
      */
-    public GeoLocation getGeoLocation(String ipAddrOrHost) throws IOException {
+    public geolocator.GeoLocation getGeoLocation(String ipAddrOrHost) throws IOException {
         URL url;
         if (ipAddrOrHost != null) {
             ipAddrOrHost = UrlEscapers.urlPathSegmentEscaper().escape(ipAddrOrHost);
             url = new URL(GEOLOCATOR_SERVICE_URI + ipAddrOrHost);
+            logger.info("ipAddrOrHost != 0" );
         } else {
             url = new URL(GEOLOCATOR_SERVICE_URI);
+            logger.info("ipAddrOrHost = 0");
         }
+        logger.debug("This code runs so far :)");
         String s = IOUtils.toString(url, "UTF-8");
-        return GSON.fromJson(s, GeoLocation.class);
+        logger.info("Data is downloaded from: {}", GEOLOCATOR_SERVICE_URI);
+        logger.info("The JSON object: {}", s);
+        logger.trace("Returning GeoLocation:");
+        return GSON.fromJson(s, geolocator.GeoLocation.class);
     }
 
     public static void main(String[] args) throws IOException {
@@ -65,7 +77,8 @@ public class GeoLocator {
             String arg = args.length > 0 ? args[0] : null;
             System.out.println(new GeoLocator().getGeoLocation(arg));
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
+            logger.error("Something is wrong: {}", e.getMessage());
         }
     }
 
